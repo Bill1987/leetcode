@@ -95,7 +95,7 @@ public:
     * Runtime: 4 ms, faster than 99.30% of C++ online submissions for Two Sum.
     * Memory Usage: 11.2 MB, less than 23.64% of C++ online submissions for Two Sum.
     */
-    vector<int> twoSum_2(vector<int>& nums, int target)
+    static vector<int> twoSum_2(vector<int>& nums, int target)
     {
         // 第一个元素是当前数字，第二个元素是位置
         map<int, int> mNums;
@@ -119,25 +119,48 @@ public:
         return { -1, -1 };
     }
 
+    // 静态成员函数
+    static vector<int> twoSum_3(vector<int>& nums, int target)
+    {
+        map<int, int> mapSource; // <firstNum, position>
+
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            int nSecond = target - nums[i];     // 与之匹配的第二个数字
+            if (mapSource.find(nSecond) != mapSource.end())
+            {
+                // 找到了对应数字,将其位置返回
+                return {mapSource[nSecond], i};
+            }
+            else
+            {
+                // 没有找到，把数字存入map中，用于之后匹配
+                mapSource[nums[i]] = i;
+            }
+        }
+
+        return {-1,-1};
+    }
+
 };
+
 
 
 int main()
 {
-    Solution sol;
     vector<int> vData;
     vector<int> vRes;
 
     vData = {2, 7, 11, 15};
-    vRes = sol.twoSum_2(vData, 9);
+    vRes = Solution::twoSum_3(vData, 9);
     cout << "[" << vRes[0] << ", " << vRes[1] << "]" << endl;
 
     vData = { 3,2,4 };
-    vRes = sol.twoSum_2(vData, 6);
+    vRes = Solution::twoSum_3(vData, 6);
     cout << "[" << vRes[0] << ", " << vRes[1] << "]" << endl;
 
     vData = { 3,3 };
-    vRes = sol.twoSum_2(vData, 6);
+    vRes = Solution::twoSum_3(vData, 6);
     cout << "[" << vRes[0] << ", " << vRes[1] << "]" << endl;
 
 	return 0;

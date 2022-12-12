@@ -154,13 +154,43 @@ public:
         // 返回是否相等的结果
         return (sOld == sNew);
     }
+
+    static bool isPalindrome_4(int x)
+    {
+        // 负数 和 被10整除（0除外）的数都不是回文
+        if( x < 0 || (x % 10 == 0 && x!= 0) )
+        {
+            return false;
+        }
+
+        int nReserve = 0;   // 翻转的数字
+        // 只需要验证一半即可，当x小于或等于返转之后的数字时，正好一半了
+        // （翻转一半既可以提高销量，又可以防止int溢出）
+        while (x > nReserve)
+        {
+            // 将当前最后一位数字，放入到翻转数字的末尾
+            int nLastNumber = x % 10;
+            nReserve =  nReserve * 10 + nLastNumber;
+
+            // 上方翻转之后，去掉源数字的末尾
+            x /= 10;
+        }
+
+        // 如果是数字是偶数位，返转之后，两边正好相当。
+        // 如果是奇数位，翻转的数字或多一位，所以要去掉最后一位（也就是源数字最中间的一位）
+        if (x == nReserve || x == nReserve / 10)
+        {
+            return true;
+        }
+
+        return false;
+    }
 };
 
 int main()
 {
-    Solution sol;
-    cout << sol.isPalindrome_3(121) << endl;
-    cout << sol.isPalindrome_3(-121) << endl;
-    cout << sol.isPalindrome_3(10) << endl;
+    cout << Solution::isPalindrome_4(121) << endl;
+    cout << Solution::isPalindrome_4(-121) << endl;
+    cout << Solution::isPalindrome_4(10) << endl;
     return 0;
 }
